@@ -84,12 +84,13 @@ class Map:
         if self.cells[cx][cy] == 1:
             self.cells[cx][cy] = 5
 
-    def update_fires(self):
+    def update_fires(self, helico):
         for ri in range(self.h):
             for ci in range(self.w):
                 cell = self.cells[ri][ci]
                 if cell == 5:
                     self.cells[ri][ci] = 0
+                    helico.score -= 100
         for i in range(10):
             self.add_fire()
     def process_helicopter(self, helico, clouds):
@@ -111,7 +112,14 @@ class Map:
             helico.lives -= 1
             if helico.lives == 0:
                 helico.game_over()
-
+        fin = []
+        for i in range(self.h):
+            for j in range(self.w):
+                fin.append(self.cells[i][j])
+        if 1 in fin:
+            print()
+        else:
+            helico.game_over()
     def export_data(self):
         return {"cells": self.cells}
 
